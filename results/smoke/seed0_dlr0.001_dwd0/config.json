@@ -1,0 +1,17 @@
+{
+  "seed": 0,
+  "steps": 300,
+  "task": "scalar",
+  "embed_lr": 0.001,
+  "decoder_lr": 0.001,
+  "embed_wd": 0.0,
+  "decoder_wd": 0.0,
+  "init_scale": 1.0,
+  "batch_size": 45,
+  "log_every": 1,
+  "acc_threshold": 0.9,
+  "experiment": "smoke",
+  "results_root": "C:\\Users\\PRIYANSHU\\Desktop\\project1\\grokking-reproduction\\results",
+  "results_dir": "C:\\Users\\PRIYANSHU\\Desktop\\project1\\grokking-reproduction\\results\\smoke\\seed0_dlr0.001_dwd0",
+  "overwrite": false
+}
