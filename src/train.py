@@ -97,16 +97,16 @@ def parse_args() -> TrainConfig:
     parser = argparse.ArgumentParser(description="Toy non-modular addition training")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
-    "--target-seed",
-    type=int,
-    default=None,
-    help="Seed for fixed random Y_c target vectors. Defaults to --seed.",
-)
-    parser.add_argument(
         "--target-seed",
         type=int,
         default=None,
         help="Seed for fixed random Y_c target vectors. Defaults to --seed.",
+    )
+    parser.add_argument(
+        "--steps",
+        type=int,
+        default=300,
+        help="Default 300 reproduces the smoke test. Paper Table 1 uses a 1e5-step horizon.",
     )
     parser.add_argument(
         "--task",
