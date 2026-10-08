@@ -64,7 +64,6 @@ def _pairs_to_index_tensors(
     c = (i + j).to(dtype=torch.long)
     return i, j, c
 
-
 def make_target_bank(n_classes: int, d_out: int, seed: int) -> torch.Tensor:
     """Fixed random output vectors Y_c (Section 2).
 
@@ -76,6 +75,7 @@ def make_target_bank(n_classes: int, d_out: int, seed: int) -> torch.Tensor:
 
 def make_split(
     seed: int,
+    target_seed: Optional[int] = None,
     p: int = P,
     n_train: int = N_TRAIN,
     n_val: int = N_VAL,
@@ -113,7 +113,16 @@ def make_split(
         val_y = val_c.to(dtype=torch.float32)
     else:
         n_sums = 2 * p - 1
-        target_bank = make_target_bank(n_sums, d_out, seed=seed)
+
+        if target_seed is None:
+            target_seed = seed
+
+        target_bank = make_target_bank(
+            n_sums,
+            d_out,
+            seed=target_seed,
+        )
+
         train_y = target_bank[train_c]
         val_y = target_bank[val_c]
 

@@ -51,6 +51,7 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 @dataclass
 class TrainConfig:
     seed: int = 0
+    target_seed: Optional[int] = None
     steps: int = 300
     task: str = "scalar"  # "scalar" smoke test; "regression" paper Y_c
     embed_lr: float = 1e-3
@@ -96,10 +97,16 @@ def parse_args() -> TrainConfig:
     parser = argparse.ArgumentParser(description="Toy non-modular addition training")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
-        "--steps",
+    "--target-seed",
+    type=int,
+    default=None,
+    help="Seed for fixed random Y_c target vectors. Defaults to --seed.",
+)
+    parser.add_argument(
+        "--target-seed",
         type=int,
-        default=300,
-        help="Default 300 reproduces the smoke test. Paper Table 1 uses a 1e5-step horizon.",
+        default=None,
+        help="Seed for fixed random Y_c target vectors. Defaults to --seed.",
     )
     parser.add_argument(
         "--task",
@@ -129,6 +136,7 @@ def parse_args() -> TrainConfig:
 
     cfg = TrainConfig(
         seed=args.seed,
+        target_seed=args.target_seed,
         steps=args.steps,
         task=args.task,
         embed_lr=args.embed_lr,
@@ -216,7 +224,12 @@ def train_one(cfg: TrainConfig) -> dict:
     print("batch: Appendix G default is full training set size 45")
     print()
 
-    data = make_split(seed=cfg.seed, task=cfg.task, d_out=D_OUT)
+    data = make_split(
+        seed=cfg.seed,
+        target_seed=cfg.target_seed,
+        task=cfg.task,
+        d_out=D_OUT,
+    )
     train_i = data.train_i.to(device)
     train_j = data.train_j.to(device)
     train_c = data.train_c.to(device)
